@@ -46,7 +46,7 @@ def get_city():
 			print("Please check your spelling. You should correctly writing one of the following:Chicago, New York, or Washington.\n")
 			continue
     # I use lower method not only here but also in all input functions. Because I want to be consistent in my code.
-	# It is easy to confuse about whether I use uppercase or lowercase in variables, so I make all variables lowercase, even user input ones.
+	# It is easy to confuse about whether I use uppercase or lowercase in variables, so I make all variables lowercase, even if user input prefers uppercase.
 	# Moreover, user needs to give right input otherwise code will keep asking the same question
 def get_time_period():
 	'''Asks the user for a time period and returns the specified filter.
