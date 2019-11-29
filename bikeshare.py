@@ -4,18 +4,19 @@
 # Moreover, in order to understand elapsed time, i import time module
 
 import csv
-import datetime 
+import datetime
 import time
 
 #Following code has two important parts: First one is ,of course, reading csv file as it is and naming it ..._file
 #It is just string but in order to play with this data more efficiently I changed its type to dictionary. For example first row is like that:
-#{'Start Time': '2017-01-01 00:00:36', 'End Time': '2017-01-01 00:06:32', 'Trip Duration': '356', 'Start Station': 'Canal St & Taylor St', 
-#'End Station': 'Canal St & Monroe St (*)', 'User Type': 'Customer', 'Gender': '', 'Birth Year': ''} 
+#{'Start Time': '2017-01-01 00:00:36', 'End Time': '2017-01-01 00:06:32', 'Trip Duration': '356', 'Start Station': 'Canal St & Taylor St',
+#'End Station': 'Canal St & Monroe St (*)', 'User Type': 'Customer', 'Gender': '', 'Birth Year': ''}
 
+#This is where we read csv files
 with open('chicago.csv','r') as chicago_file:
 	chicago_reader= [{k: v for k,v in row.items()}
 					  for row in csv.DictReader(chicago_file, skipinitialspace=True)]
-	
+
 with open('new_york_city.csv','r') as new_york_city_file:
 	new_york_city_reader= [{k: v for k,v in row.items()}
 					  for row in csv.DictReader(new_york_city_file, skipinitialspace=True)]
@@ -23,7 +24,8 @@ with open('new_york_city.csv','r') as new_york_city_file:
 with open('washington.csv','r') as washington_file:
 	washington_reader= [{k: v for k,v in row.items()}
 					  for row in csv.DictReader(washington_file, skipinitialspace=True)]
-					  
+
+
 def get_city():
 	'''Asks the user for a city and returns the filename for that city's bike share data.
 	Args:
@@ -32,11 +34,11 @@ def get_city():
 	(str) Filename for a city's bikeshare data.
 	'''
 	while True:
-	
+
 		city_filter = input('\nHello! Let\'s explore some US bikeshare data!\n''Would you like to see data for Chicago, New York, or Washington?\n')
-		
+
 		city = city_filter.lower()
-		
+
 		if city=='chicago' or city=='new york' or city=='washington':
 			return city
 			break
@@ -59,7 +61,7 @@ def get_time_period():
 		if time_period == ('month') or time_period ==('day') or time_period ==('none'):
 			return time_period.lower()
 			break
-		
+
 		else:
 			print("Please check your spelling\n")
 			continue
@@ -86,8 +88,8 @@ def get_month():
 	# I use lower method not only here but also in all input functions. Because I want to be consistent in my code.
 	# It is easy to confuse about whether I use uppercase or lowercase in variables, so I make all variables lowercase, even user input ones.
 	# Moreover, user needs to give right input otherwise code will keep asking the same question
-	
-    
+
+
 
 
 def get_day():
@@ -98,7 +100,7 @@ def get_day():
 	(str) Specified day in lower cases.
 	'''
 	while True:
-	
+
 		day = input('\nWhich day? Please type your response as an integer. 0 is Sunday, 1 is Monday and so on.\n')
 		if day=='0':
 			return 'sunday'
@@ -124,8 +126,8 @@ def get_day():
 		else:
 			print('You need to write a number between 0-6. 0 is Sunday, 1 is Monday and so on.\n ')
 			continue
-			
-			
+
+
     # I use lower method not only here but also in all input functions. Because I want to be consistent in my code.
 	# It is easy to confuse about whether I use uppercase or lowercase in variables, so I make all variables lowercase, even user input ones.
 	# Moreover, user needs to give right input otherwise code will keep asking the same question
@@ -136,7 +138,7 @@ def popular_month(city_file):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	Keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 	 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	Returns:
 	(str) Month corresponding to highest amount of bikeshare usage
 	'''
@@ -147,7 +149,7 @@ def popular_month(city_file):
 		a=city_file[i]['Start Time']
 		# Following method changes str to time object
 		b=datetime.datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
-		# Following method returns month of its time object and append it to list. Remember 1 is january, 2 is february and so on.  
+		# Following method returns month of its time object and append it to list. Remember 1 is january, 2 is february and so on.
 		my_list.append(b.month)
 	# Count each months in the list by following method:
 	number_jan=my_list.count(1)
@@ -181,9 +183,9 @@ def popular_day(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can either be
-	a month or none.	 
+	a month or none.
 	Returns:
 	(str) Day of week corresponding to highest amount of bikeshare usage
 	'''
@@ -231,13 +233,13 @@ def popular_day(city_file, time_period):
 		elif number_tue==max_value:
 			return'Tuesday'
 		elif number_wed==max_value:
-			return 'Wednesday' 
+			return 'Wednesday'
 		elif number_thu==max_value:
-			return 'Thursday' 
+			return 'Thursday'
 		elif number_fri==max_value:
 			return 'Friday'
 		elif number_sat==max_value:
-			return 'Saturday' 
+			return 'Saturday'
 	# If the user specify the month:
 	else:
 		my_list=[]
@@ -288,7 +290,7 @@ def popular_hour(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) Month corresponding to highest amount of bikeshare usage
@@ -338,7 +340,7 @@ def popular_hour(city_file, time_period):
 		for i in range(24):
 			# Count the number of appearance of this hour in my list and add this count to list_of_usage_hourly
 			list_of_usage_hourly.append(my_list.count(i))
-		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list, 
+		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list,
 		# But we are interested in which hour is peak hour for bikeshare.)
 		m= max(list_of_usage_hourly)
 		# Find the corresponding hour for maximum count.
@@ -350,7 +352,7 @@ def popular_hour(city_file, time_period):
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
 		for i in range(len(city_file)):
-			# Take its 'Start Time' value...		
+			# Take its 'Start Time' value...
 			a=city_file[i]['Start Time']
 			# Following method changes str to time object
 			b=datetime.datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
@@ -362,14 +364,14 @@ def popular_hour(city_file, time_period):
 		for i in range(24):
 			# Count the number of appearance of this hour in my list and add this count to list_of_usage_hourly
 			list_of_usage_hourly.append(my_list.count(i))
-		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list, 
+		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list,
 		# But we are interested in which hour is peak hour for bikeshare.)
 		m= max(list_of_usage_hourly)
 		# Find the corresponding hour for maximum count.
 		for i,value in enumerate(list_of_usage_hourly):
 			if value==m:
 				return i
-	# If the user specify day filter:			
+	# If the user specify day filter:
 	else:
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -386,7 +388,7 @@ def popular_hour(city_file, time_period):
 		for i in range(24):
 			# Count the number of appearance of this hour in my list and add this count to list_of_usage_hourly
 			list_of_usage_hourly.append(my_list.count(i))
-		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list, 
+		# Find the maximum of this list (Remember this value is just the maximum value of appearance of every hour in the list,
 		# But we are interested in which hour is peak hour for bikeshare.)
 		m= max(list_of_usage_hourly)
 		# Find the corresponding hour for maximum count.
@@ -401,7 +403,7 @@ def trip_duration(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) Total trip duration and average trip duration in edited format.
@@ -434,8 +436,8 @@ def trip_duration(city_file, time_period):
 		spec_day=5
 	elif time_period=='saturday':
 		spec_day=6
-	list_of_usage_hourly=[]	
-	
+	list_of_usage_hourly=[]
+
 	# If the user didnt specify any time filter:
 	if time_period=='none':
 		my_list=[]
@@ -461,7 +463,7 @@ def trip_duration(city_file, time_period):
 		# Result is given ...days and HH:MM:SS format.
 		return ("Total trip duration is %g days and %d:%02d:%02d (or in other words %g seconds). Also average time is %02d" % (g,h, m, s,seconds,average_trip))
 	# If the user specify month filter:
-	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):	
+	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
 		for i in range(len(city_file)):
@@ -528,7 +530,7 @@ def popular_start_stations(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) The most popular start station.
@@ -561,7 +563,7 @@ def popular_start_stations(city_file, time_period):
 		spec_day=5
 	elif time_period=='saturday':
 		spec_day=6
-	# If the user didnt specify any time filter:	
+	# If the user didnt specify any time filter:
 	if time_period=='none':
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -580,8 +582,8 @@ def popular_start_stations(city_file, time_period):
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular start station.
 		return max(my_dicts, key=my_dicts.get)
-		
-	# If the user specify month time filter:	
+
+	# If the user specify month time filter:
 	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -589,7 +591,7 @@ def popular_start_stations(city_file, time_period):
 			# Take its 'Start Time' value...
 			x=city_file[i]['Start Time']
 			# Following method changes str to time object
-			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")	
+			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")
 			# Now, if the month of the above object is same as the specified month...
 			if  y.month==spec_month:
 				# Take its 'Start Station' value...
@@ -601,13 +603,13 @@ def popular_start_stations(city_file, time_period):
 		# Also we need to know number of appearance of each unique stations in the list and assign them in corresponding station.
 		# For example, X station: Y times. To do this, I make use of dictionary.
 		my_dicts={}
-		
+
 		# This is the code for X station : Y times
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular start station.
 		return max(my_dicts, key=my_dicts.get)
-		
+
 	# If the user specify day time filter:
 	else:
 		my_list=[]
@@ -627,13 +629,13 @@ def popular_start_stations(city_file, time_period):
 		my_set=set(my_list)
 		# Also we need to know number of appearance of each unique stations in the list and assign them in corresponding station.
 		# For example, X station: Y times. To do this, I make use of dictionary.
-		my_dicts={}	
+		my_dicts={}
 		# This is the code for X station : Y times
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular start station.
 		return max(my_dicts, key=my_dicts.get)
-	
+
 
 
 
@@ -643,7 +645,7 @@ def popular_end_stations(city_file,time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) The most popular end station.
@@ -676,7 +678,7 @@ def popular_end_stations(city_file,time_period):
 		spec_day=5
 	elif time_period=='saturday':
 		spec_day=6
-	# If the user didnt specify any time filter.	
+	# If the user didnt specify any time filter.
 	if time_period=='none':
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -690,12 +692,12 @@ def popular_end_stations(city_file,time_period):
 		# Also we need to know number of appearance of each unique stations in the list and assign them in corresponding station.
 		# For example, X station: Y times. To do this, I make use of dictionary.
 		my_dicts={}
-		# This is the code for X station : Y times	
+		# This is the code for X station : Y times
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular end station.
 		return max(my_dicts, key=my_dicts.get)
-		
+
 	# If the user specify month time filter:
 	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):
 		my_list=[]
@@ -721,7 +723,7 @@ def popular_end_stations(city_file,time_period):
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular end station.
 		return max(my_dicts, key=my_dicts.get)
-		
+
 	# If the user specify day time filter:
 	else:
 		my_list=[]
@@ -747,9 +749,9 @@ def popular_end_stations(city_file,time_period):
 			my_dicts[element]=my_list.count(element)
 		# Returns the most popular end station.
 		return max(my_dicts, key=my_dicts.get)
-	
-	
-	
+
+
+
 
 def popular_trip(city_file, time_period):
 	'''
@@ -757,7 +759,7 @@ def popular_trip(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) The most popular trip.
@@ -790,8 +792,8 @@ def popular_trip(city_file, time_period):
 		spec_day=5
 	elif time_period=='saturday':
 		spec_day=6
-	
-	# If the user didnt specify any time filter.	
+
+	# If the user didnt specify any time filter.
 	if time_period=='none':
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -805,7 +807,7 @@ def popular_trip(city_file, time_period):
 		my_dicts={}
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
-	
+
 		return max(my_dicts, key=my_dicts.get)
 	# If the user specify month time filter.
 	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):
@@ -815,7 +817,7 @@ def popular_trip(city_file, time_period):
 			# Take its 'Start Time' value...
 			x=city_file[i]['Start Time']
 			# Following method changes str to time object
-			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")	
+			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")
 			if  y.month==spec_month:
 				# Take its 'Start Station' and 'End Station' and combine them...
 				a=city_file[i]['Start Station']
@@ -828,7 +830,7 @@ def popular_trip(city_file, time_period):
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
 		return max(my_dicts, key=my_dicts.get)
-		
+
 	# If the user specify day time filter.
 	else:
 		my_list=[]
@@ -849,7 +851,7 @@ def popular_trip(city_file, time_period):
 		for element in my_set:
 			my_dicts[element]=my_list.count(element)
 		return max(my_dicts, key=my_dicts.get)
-	
+
 
 
 def users(city_file, time_period):
@@ -858,12 +860,12 @@ def users(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader.
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) Number of user types in edited format.
 	'''
-    
+
 	# The following code assigns filtered month (to be analyzed month) to number
 	if time_period=='january':
 		spec_month=1
@@ -892,7 +894,7 @@ def users(city_file, time_period):
 		spec_day=5
 	elif time_period=='saturday':
 		spec_day=6
-	# If the user didnt specify any time filter... 	
+	# If the user didnt specify any time filter...
 	if time_period=='none':
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -904,7 +906,7 @@ def users(city_file, time_period):
 		number_sub=my_list.count('Subscriber')
 		number_cus=my_list.count('Customer')
 		return "Number of customer is: {} , and number of subscriber is: {} ".format(number_cus,number_sub)
-	# If the user specify month time filter... Be aware only chicago_reader's file have related information!	
+	# If the user specify month time filter... Be aware only chicago_reader's file have related information!
 	elif time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june'):
 		my_list=[]
 		# Every row in city file...
@@ -921,7 +923,7 @@ def users(city_file, time_period):
 		number_sub=my_list.count('Subscriber')
 		number_cus=my_list.count('Customer')
 		return "Number of customer is: {} , and number of subscriber is: {} ".format(number_cus,number_sub)
-	# If the user specify day time filter...Be aware only chicago_reader's file have related information! 
+	# If the user specify day time filter...Be aware only chicago_reader's file have related information!
 	else:
 		my_list=[]
 		#Take its start time value and make it time object
@@ -944,7 +946,7 @@ def gender(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. Warning: only chicago file includes this information 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader. Warning: only chicago file includes this information
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) Amount of user in terms of gender types in edited format.
@@ -995,14 +997,14 @@ def gender(city_file, time_period):
 		my_list=[]
 		for i in range(len(city_file)):
 			x=city_file[i]['Start Time']
-			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")	
+			y=datetime.datetime.strptime(x, "%Y-%m-%d %H:%M:%S")
 			if  y.month==spec_month:
 				a=city_file[i]['Gender']
 				my_list.append(a)
 		number_male=my_list.count('Male')
 		number_female=my_list.count('Female')
 		return "Number of female user is {}, number of male user is {}".format(number_female,number_male)
-	# If the user specify day time filter. Similar logic is applied. Only chicago file includes this information.	
+	# If the user specify day time filter. Similar logic is applied. Only chicago file includes this information.
 	elif (time_period==('sunday') or time_period==('monday') or time_period==('tuesday') or time_period==('wednesday') or time_period==('thursday') or time_period==('friday') or time_period==('saturday')) and city_file==chicago_reader:
 		my_list=[]
 		for i in range(len(city_file)):
@@ -1013,7 +1015,7 @@ def gender(city_file, time_period):
 				my_list.append(a)
 		number_male=my_list.count('Male')
 		number_female=my_list.count('Female')
-		return "Number of female user is {}, number of male user is {}".format(number_female,number_male)	
+		return "Number of female user is {}, number of male user is {}".format(number_female,number_male)
 	else:
 		return 'No information available about gender'
 
@@ -1024,12 +1026,12 @@ def birth_years(city_file, time_period):
 	Args:
 	city_file: This is a list in which elements are dictionary. Actually each row of csv is a dictionary with
 	keys are just corresponding column name (str), and values are corresponding values in cell (str)
-	Input will be among chicago_reader,new_york_city_reader,washington_reader. Warning: only chicago file includes this information 
+	Input will be among chicago_reader,new_york_city_reader,washington_reader. Warning: only chicago file includes this information
 	time_period: This is a str which indicates filter parameter. For this function it can be month, day, or none
 	Returns:
 	(str) Birth year of youngest person, oldest person and most popular year in edited format.
 	'''
-    
+
 	# The following code assigns filtered month (to be analyzed month) to number
 	if time_period=='january':
 		spec_month=1
@@ -1080,7 +1082,7 @@ def birth_years(city_file, time_period):
 		for i in my_set:
 			my_dicts[i]=my_list.count(i)
 		return "Oldest person born in {}, youngest person born in {}, most frequent users are born in {}".format(oldest,youngest,max(my_dicts, key=my_dicts.get))
-	# If the user specify month time filter. Similar logic is applied. Only chicago file includes this information.	
+	# If the user specify month time filter. Similar logic is applied. Only chicago file includes this information.
 	elif (time_period==('january') or time_period==('february') or time_period==('march') or time_period==('april') or time_period==('may') or time_period==('june')) and city_file==chicago_reader:
 		my_list=[]
 		# Every row in city file (which is a dictionary)...
@@ -1138,7 +1140,7 @@ def birth_years(city_file, time_period):
 		return "Oldest person born in {}, youngest person born in {}, most frequent users are born in {}".format(oldest,youngest,max(my_dicts, key=my_dicts.get))
 	else:
 		return 'No information available about gender'
-		
+
 
 def display_data():
 	'''Displays five lines of data if the user specifies that they would like to.
@@ -1152,12 +1154,12 @@ def display_data():
 	# User input and assign it to display variable
 	display = input('\nWould you like to view individual trip data?'
                     'Type \'yes\' or \'no\'.\n')
-    
+
 	# Since there is no specific limitation for city, I choose chicago for specimen.
-	chicago_read=open('chicago.csv', newline='') 
+	chicago_read=open('chicago.csv', newline='')
 	chicago_file= csv.reader(chicago_read)
 	while display=='yes':
-		# While user type yes following code shows next five row of chicago file. 
+		# While user type yes following code shows next five row of chicago file.
 		row1 = next(chicago_file)
 		row2=next(chicago_file)
 		row3=next(chicago_file)
@@ -1204,36 +1206,36 @@ def statistics():
 	# If it is day, which day?
 	elif time_period_filter=='day':
 		time_period=get_day()
-		
+
 	#Up to now, City filter: city_file, Time filter: time_period
-    
+
 	print('Calculating the first statistic...')
 
 	# What is the most popular month for start time?
 	if time_period_filter == 'none':
 		start_time = time.time()
-        
+
 		result_popular_month=popular_month(city_file)
 		print("The most popular month is: {}".format(result_popular_month))
-        
+
 		print("That took %s seconds." % (time.time() - start_time))
 		print("Calculating the next statistic...")
 
 	# What is the most popular day of week (Monday, Tuesday, etc.) for start time?
 	if time_period_filter == 'none' or time_period_filter == 'month':
 		start_time = time.time()
-		
+
 		result_popular_day=popular_day(city_file,time_period)
 		print("The most popular day is: {}".format(result_popular_day))
-        
+
 		print("That took %s seconds." % (time.time() - start_time))
-		print("Calculating the next statistic...")    
+		print("Calculating the next statistic...")
 
 	start_time = time.time()
 	# What is the most popular hour of day for start time?
 	result_popular_hour=popular_hour(city_file,time_period)
 	print("The most popular hour is: {}".format(result_popular_hour))
-	
+
 	print("That took %s seconds." % (time.time() - start_time))
 	print("Calculating the next statistic...")
 	start_time = time.time()
@@ -1251,7 +1253,7 @@ def statistics():
 	result_end_station=popular_end_stations(city_file,time_period)
 	print("The most popular start station is: {}".format(result_start_station))
 	print("The most popular end station is: {}".format(result_end_station))
-    
+
 
 	print("That took %s seconds." % (time.time() - start_time))
 	print("Calculating the next statistic...")
@@ -1260,7 +1262,7 @@ def statistics():
 	# What is the most popular trip?
 	result_popular_trip=popular_trip(city_file,time_period)
 	print("The most popular trip is: {}". format(result_popular_trip))
-    
+
 
 	print("That took %s seconds." % (time.time() - start_time))
 	print("Calculating the next statistic...")
@@ -1269,8 +1271,8 @@ def statistics():
 	# What are the counts of each user type?
 	result_type=users(city_file,time_period)
 	print(result_type)
-	
-    
+
+
 
 	print("That took %s seconds." % (time.time() - start_time))
 	print("Calculating the next statistic...")
@@ -1287,7 +1289,7 @@ def statistics():
 	# most popular birth years?
 	result_birth_year=birth_years(city_file,time_period)
 	print(result_birth_year)
-   
+
 	print("That took %s seconds." % (time.time() - start_time))
 
 	# Display five lines of data at a time if user specifies that they would like to
